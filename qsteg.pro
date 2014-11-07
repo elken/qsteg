@@ -6,15 +6,18 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets core
 
 TARGET = qsteg
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        qsteg.cpp
+        qsteg.cpp \
+    aboutwindow.cpp
 
-HEADERS  += qsteg.h
+HEADERS  += qsteg.h \
+    aboutwindow.h
 
-FORMS    += qsteg.ui
+FORMS    += qsteg.ui \
+    aboutwindow.ui

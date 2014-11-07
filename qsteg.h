@@ -2,6 +2,14 @@
 #define QSTEG_H
 
 #include <QMainWindow>
+#include <QDebug>
+#include <QMenuBar>
+#include <QFileDialog>
+#include <QGraphicsPixmapItem>
+
+#include <iostream>
+#include <sstream>
+#include <string>
 
 namespace Ui {
 class QSteg;
@@ -27,7 +35,6 @@ private:
     QMenu* decodeMenu;
     QMenu* helpMenu;
 
-    QAction* newAct;
     QAction* openAct;
     QAction* saveAct;
     QAction* saveAsAct;
@@ -37,7 +44,6 @@ private:
     QAction* aboutAct;
 
 private slots:
-    void newFile();
     void open();
     void save();
     void saveAs();

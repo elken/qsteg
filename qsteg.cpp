@@ -1,10 +1,7 @@
 #include "qsteg.h"
 #include "ui_qsteg.h"
-#include <QDebug>
-#include <QMenuBar>
-#include <iostream>
-#include <sstream>
-#include <string>
+#include "aboutwindow.h"
+#include "ui_aboutwindow.h"
 
 QSteg::QSteg(QWidget *parent) :
     QMainWindow(parent),
@@ -17,14 +14,20 @@ QSteg::QSteg(QWidget *parent) :
     setWindowTitle(tr("QSteg - menu test"));
 }
 
-void QSteg::newFile()
-{
-    qDebug() << "New file";
-}
-
 void QSteg::open()
 {
-    qDebug() << "open";
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open image"), QDir::homePath(), tr("Image files (*.bmp)"));
+    if(!fileName.isEmpty())
+    {
+        qDebug() << fileName;
+        QGraphicsScene* scene = new QGraphicsScene(this);
+        QGraphicsPixmapItem* img = new QGraphicsPixmapItem;
+        img->setPixmap(QPixmap(fileName));
+        scene->addItem(img);
+
+        ui->graphicsView->setScene(scene);
+        ui->graphicsView->show();
+    }
 }
 
 void QSteg::save()
@@ -39,7 +42,7 @@ void QSteg::saveAs()
 
 void QSteg::quit()
 {
-    qDebug() << "quit";
+    quit();
 }
 
 void QSteg::encode()
@@ -54,16 +57,12 @@ void QSteg::decode()
 
 void QSteg::about()
 {
-    qDebug() << "about";
+    aboutWindow a(this);
+    a.exec();
 }
 
 void QSteg::createActions()
 {
-    newAct = new QAction(tr("&New"), this);
-    newAct->setShortcuts(QKeySequence::New);
-    newAct->setStatusTip(tr("Create a new file"));
-    connect(newAct, SIGNAL(triggered()), this, SLOT(newFile()));
-
     openAct = new QAction(tr("&Open"), this);
     openAct->setShortcuts(QKeySequence::Open);
     openAct->setStatusTip(tr("Open a file"));
@@ -101,7 +100,6 @@ void QSteg::createActions()
 void QSteg::createMenus()
 {
     fileMenu = menuBar()->addMenu(tr("&File"));
-    fileMenu->addAction(newAct);
     fileMenu->addAction(openAct);
     fileMenu->addAction(saveAct);
     fileMenu->addAction(saveAsAct);
