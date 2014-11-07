@@ -11,7 +11,6 @@ QSteg::QSteg(QWidget *parent) :
 
     createActions();
     createMenus();
-    setWindowTitle(tr("QSteg - menu test"));
 }
 
 void QSteg::open()
@@ -42,7 +41,7 @@ void QSteg::saveAs()
 
 void QSteg::quit()
 {
-    quit();
+    close();
 }
 
 void QSteg::encode()

@@ -12,12 +12,12 @@ TARGET = qsteg
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        qsteg.cpp \
-    aboutwindow.cpp
+SOURCES += src/main.cpp\
+           src/qsteg.cpp \
+           src/aboutwindow.cpp
 
-HEADERS  += qsteg.h \
-    aboutwindow.h
+HEADERS  += src/qsteg.h \
+            src/aboutwindow.h
 
-FORMS    += qsteg.ui \
-    aboutwindow.ui
+FORMS    += res/qsteg.ui \
+            res/aboutwindow.ui
