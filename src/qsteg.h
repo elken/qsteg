@@ -6,10 +6,19 @@
 #include <QMenuBar>
 #include <QFileDialog>
 #include <QGraphicsPixmapItem>
+#include <QSignalMapper>
+#include <QBuffer>
 
 #include <iostream>
 #include <sstream>
 #include <string>
+
+struct QStegImage
+{
+    QGraphicsScene* stegScene;
+    QGraphicsPixmapItem* stegPixmapItem;
+    QPixmap* stegPixmap;
+};
 
 namespace Ui {
 class QSteg;
@@ -20,12 +29,13 @@ class QSteg : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit QSteg(QWidget *parent = 0);
+    explicit QSteg(QWidget* parent = 0);
     ~QSteg();
 
 
 private:
     Ui::QSteg *ui;
+    QStegImage* stegImg;
     void createActions();
     void createMenus();
 
@@ -52,5 +62,6 @@ private slots:
     void decode();
     void about();
 };
+
 
 #endif // QSTEG_H

@@ -3,12 +3,11 @@
 #include "aboutwindow.h"
 #include "ui_aboutwindow.h"
 
-QSteg::QSteg(QWidget *parent) :
+QSteg::QSteg(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::QSteg)
 {
     ui->setupUi(this);
-
     createActions();
     createMenus();
 }
@@ -18,13 +17,19 @@ void QSteg::open()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open image"), QDir::homePath(), tr("Image files (*.bmp)"));
     if(!fileName.isEmpty())
     {
-        qDebug() << fileName;
-        QGraphicsScene* scene = new QGraphicsScene(this);
-        QGraphicsPixmapItem* img = new QGraphicsPixmapItem;
-        img->setPixmap(QPixmap(fileName));
-        scene->addItem(img);
+//        QGraphicsScene* scene = new QGraphicsScene(this);
+//        QGraphicsPixmapItem* img = new QGraphicsPixmapItem;
+//        img->setPixmap(QPixmap(fileName));
+//        scene->addItem(img);
 
-        ui->graphicsView->setScene(scene);
+        QStegImage* stegImg = new QStegImage();
+        stegImg->stegScene = new QGraphicsScene(this);
+        stegImg->stegPixmapItem = new QGraphicsPixmapItem;
+        stegImg->stegPixmap = new QPixmap(fileName);
+        stegImg->stegPixmapItem->setPixmap(*stegImg->stegPixmap);
+        stegImg->stegScene->addItem(stegImg->stegPixmapItem);
+
+        ui->graphicsView->setScene(stegImg->stegScene);
         ui->graphicsView->show();
     }
 }
@@ -32,6 +37,10 @@ void QSteg::open()
 void QSteg::save()
 {
     qDebug() << "save";
+    QByteArray img;
+    QBuffer buf(&img);
+    buf.open(QIODevice::WriteOnly);
+    stegImg->stegPixmap->save(&buf, "BMP");
 }
 
 void QSteg::saveAs()
