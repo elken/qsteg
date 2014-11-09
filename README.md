@@ -6,7 +6,7 @@ Original Qt version of GSteg. Pretty basic atm, don't expect too much.
 Build instructions
 ==================
 
-Deps: qt4/qt5 (not sure which yet) & qmake
+Deps: qt5-{widgets,gui,core}, qmake & a c++ compiler
 
 1: `mkdir build`
 
