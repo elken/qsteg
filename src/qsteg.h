@@ -18,6 +18,7 @@ struct QStegImage
     QGraphicsScene* stegScene;
     QGraphicsPixmapItem* stegPixmapItem;
     QPixmap* stegPixmap;
+    QString filename;
 };
 
 namespace Ui {

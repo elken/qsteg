@@ -15,17 +15,13 @@ QSteg::QSteg(QWidget* parent) :
 void QSteg::open()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open image"), QDir::homePath(), tr("Image files (*.bmp)"));
-    if(!fileName.isEmpty())
+    stegImg->filename = fileName;
+    if(!stegImg->filename.isEmpty())
     {
-//        QGraphicsScene* scene = new QGraphicsScene(this);
-//        QGraphicsPixmapItem* img = new QGraphicsPixmapItem;
-//        img->setPixmap(QPixmap(fileName));
-//        scene->addItem(img);
-
         QStegImage* stegImg = new QStegImage();
         stegImg->stegScene = new QGraphicsScene(this);
         stegImg->stegPixmapItem = new QGraphicsPixmapItem;
-        stegImg->stegPixmap = new QPixmap(fileName);
+        stegImg->stegPixmap = new QPixmap(stegImg->filename);
         stegImg->stegPixmapItem->setPixmap(*stegImg->stegPixmap);
         stegImg->stegScene->addItem(stegImg->stegPixmapItem);
 
@@ -40,12 +36,15 @@ void QSteg::save()
     QByteArray img;
     QBuffer buf(&img);
     buf.open(QIODevice::WriteOnly);
-    stegImg->stegPixmap->save(&buf, "BMP");
 }
 
 void QSteg::saveAs()
 {
-    qDebug() << "save as";
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save image"), stegImg->filename);
+    if(!fileName.isEmpty())
+    {
+        stegImg->stegPixmap->save(fileName, "BMP");
+    }
 }
 
 void QSteg::quit()
