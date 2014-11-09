@@ -11,13 +11,16 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets core
 TARGET = qsteg
 TEMPLATE = app
 
+CONFIG += c++11
 
 SOURCES += src/main.cpp\
            src/qsteg.cpp \
-           src/aboutwindow.cpp
+           src/aboutwindow.cpp \
+    src/hexeditor.cpp
 
 HEADERS  += src/qsteg.h \
-            src/aboutwindow.h
+            src/aboutwindow.h \
+    src/hexeditor.h
 
 FORMS    += res/qsteg.ui \
             res/aboutwindow.ui

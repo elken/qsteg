@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>918</width>
+    <width>914</width>
     <height>624</height>
    </rect>
   </property>
@@ -21,37 +21,65 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0" colspan="3">
-     <widget class="QGraphicsView" name="graphicsView">
-      <property name="contextMenuPolicy">
-       <enum>Qt::DefaultContextMenu</enum>
-      </property>
-      <property name="autoFillBackground">
-       <bool>true</bool>
-      </property>
-      <property name="sizeAdjustPolicy">
-       <enum>QAbstractScrollArea::AdjustIgnored</enum>
-      </property>
-     </widget>
+    <item row="0" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QGraphicsView" name="stegImageView">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="contextMenuPolicy">
+         <enum>Qt::DefaultContextMenu</enum>
+        </property>
+        <property name="autoFillBackground">
+         <bool>true</bool>
+        </property>
+        <property name="sizeAdjustPolicy">
+         <enum>QAbstractScrollArea::AdjustIgnored</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGraphicsView" name="graphicsView">
+        <property name="maximumSize">
+         <size>
+          <width>101</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTextEdit" name="stegBytesText">
+        <property name="maximumSize">
+         <size>
+          <width>184</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item row="1" column="0">
-     <widget class="QPlainTextEdit" name="ktextedit"/>
-    </item>
-    <item row="1" column="1">
-     <widget class="QPushButton" name="pushButton">
-      <property name="text">
-       <string>PushButton</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="2">
-     <widget class="QPushButton" name="pushButton_2">
-      <property name="text">
-       <string>PushButton</string>
+     <widget class="QPlainTextEdit" name="stegInputText">
+      <property name="minimumSize">
+       <size>
+        <width>552</width>
+        <height>0</height>
+       </size>
       </property>
      </widget>
     </item>
    </layout>
+   <zorder>stegBytesText</zorder>
+   <zorder>stegInputText</zorder>
+   <zorder>stegImageView</zorder>
+   <zorder>graphicsView</zorder>
+   <zorder>graphicsView</zorder>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen">

@@ -3,30 +3,33 @@
 #include "aboutwindow.h"
 #include "ui_aboutwindow.h"
 
+#include "hexeditor.h"
+
 QSteg::QSteg(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::QSteg)
 {
     ui->setupUi(this);
+
     createActions();
     createMenus();
+    setupHex();
 }
 
 void QSteg::open()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open image"), QDir::homePath(), tr("Image files (*.bmp)"));
-    stegImg->filename = fileName;
+    stegImg = new QStegImage();
+    stegImg->filename = QFileDialog::getOpenFileName(this, tr("Open image"), QDir::homePath(), tr("Image files (*.bmp)"));
     if(!stegImg->filename.isEmpty())
     {
-        QStegImage* stegImg = new QStegImage();
         stegImg->stegScene = new QGraphicsScene(this);
         stegImg->stegPixmapItem = new QGraphicsPixmapItem;
         stegImg->stegPixmap = new QPixmap(stegImg->filename);
         stegImg->stegPixmapItem->setPixmap(*stegImg->stegPixmap);
         stegImg->stegScene->addItem(stegImg->stegPixmapItem);
 
-        ui->graphicsView->setScene(stegImg->stegScene);
-        ui->graphicsView->show();
+        ui->stegImageView->setScene(stegImg->stegScene);
+        ui->stegImageView->show();
     }
 }
 
@@ -36,15 +39,16 @@ void QSteg::save()
     QByteArray img;
     QBuffer buf(&img);
     buf.open(QIODevice::WriteOnly);
+    stegImg->stegPixmap->save(&buf, "BMP");
+
+    stegImg->stegBytes = hexFormat(img, img.size());
+
+    qDebug() << stegImg->stegBytes;
 }
 
 void QSteg::saveAs()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save image"), stegImg->filename);
-    if(!fileName.isEmpty())
-    {
-        stegImg->stegPixmap->save(fileName, "BMP");
-    }
+    qDebug() << "save as ";
 }
 
 void QSteg::quit()
@@ -123,6 +127,28 @@ void QSteg::createMenus()
     helpMenu->addAction(aboutAct);
 }
 
+QString QSteg::hexFormat(QByteArray ba, size_t bs)
+{
+    std::stringstream s;
+    s << std::setfill('0');
+    std::cout << "size: " << bs << std::endl;
+
+    for(auto sv=0U,n=0U,l=1U; n < bs; sv+=8, n++,l++)
+    {
+        s << std::hex << std::setw(2) << (reinterpret_cast<int>(ba.at(n) >> sv) & 0xFF) << " ";
+        if(l%16==0)
+            s << std::endl;
+    }
+
+
+    return QString::fromStdString(s.str());
+}
+
+void QSteg::setupHex()
+{
+    HexEditor* editor = new HexEditor(ui->stegBytesText);
+    ui->stegBytesText->setReadOnly(true);
+}
 
 QSteg::~QSteg()
 {

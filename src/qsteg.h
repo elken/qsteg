@@ -8,10 +8,13 @@
 #include <QGraphicsPixmapItem>
 #include <QSignalMapper>
 #include <QBuffer>
+#include <QTextEdit>
+#include <QtGui>
 
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <iomanip>
 
 struct QStegImage
 {
@@ -19,6 +22,7 @@ struct QStegImage
     QGraphicsPixmapItem* stegPixmapItem;
     QPixmap* stegPixmap;
     QString filename;
+    QString stegBytes;
 };
 
 namespace Ui {
@@ -35,11 +39,11 @@ public:
 
 
 private:
+    // Custom objects
     Ui::QSteg *ui;
     QStegImage* stegImg;
-    void createActions();
-    void createMenus();
 
+    // Variables
     QMenu* fileMenu;
     QMenu* editMenu;
     QMenu* encodeMenu;
@@ -53,6 +57,13 @@ private:
     QAction* encodeAct;
     QAction* decodeAct;
     QAction* aboutAct;
+
+    // Functions
+    void createActions();
+    void createMenus();
+    void setupHex();
+
+    QString hexFormat(QByteArray, size_t);
 
 private slots:
     void open();
