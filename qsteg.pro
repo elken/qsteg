@@ -15,12 +15,10 @@ CONFIG += c++11
 
 SOURCES += src/main.cpp\
            src/qsteg.cpp \
-           src/aboutwindow.cpp \
-    src/hexeditor.cpp
+           src/aboutwindow.cpp
 
 HEADERS  += src/qsteg.h \
-            src/aboutwindow.h \
-    src/hexeditor.h
+            src/aboutwindow.h
 
 FORMS    += res/qsteg.ui \
             res/aboutwindow.ui

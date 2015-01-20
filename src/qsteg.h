@@ -10,6 +10,7 @@
 #include <QBuffer>
 #include <QTextEdit>
 #include <QtGui>
+#include <QMessageBox>
 
 #include <iostream>
 #include <sstream>
@@ -23,6 +24,7 @@ struct QStegImage
     QPixmap* stegPixmap;
     QString filename;
     QString stegBytes;
+    QString stegBuffer;
 };
 
 namespace Ui {
@@ -44,6 +46,8 @@ private:
     QStegImage* stegImg;
 
     // Variables
+    bool isLoaded = false;
+
     QMenu* fileMenu;
     QMenu* editMenu;
     QMenu* encodeMenu;

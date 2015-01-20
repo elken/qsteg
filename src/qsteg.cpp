@@ -3,7 +3,6 @@
 #include "aboutwindow.h"
 #include "ui_aboutwindow.h"
 
-#include "hexeditor.h"
 
 QSteg::QSteg(QWidget* parent) :
     QMainWindow(parent),
@@ -20,17 +19,50 @@ void QSteg::open()
 {
     stegImg = new QStegImage();
     stegImg->filename = QFileDialog::getOpenFileName(this, tr("Open image"), QDir::homePath(), tr("Image files (*.bmp)"));
-    if(!stegImg->filename.isEmpty())
+    if(!isLoaded)
     {
-        stegImg->stegScene = new QGraphicsScene(this);
-        stegImg->stegPixmapItem = new QGraphicsPixmapItem;
-        stegImg->stegPixmap = new QPixmap(stegImg->filename);
-        stegImg->stegPixmapItem->setPixmap(*stegImg->stegPixmap);
-        stegImg->stegScene->addItem(stegImg->stegPixmapItem);
+        if(!stegImg->filename.isEmpty())
+        {
+            isLoaded = true;
+            stegImg->stegScene = new QGraphicsScene(this);
+            stegImg->stegPixmapItem = new QGraphicsPixmapItem;
+            stegImg->stegPixmap = new QPixmap(stegImg->filename);
+            stegImg->stegPixmapItem->setPixmap(*stegImg->stegPixmap);
+            stegImg->stegScene->addItem(stegImg->stegPixmapItem);
 
-        ui->stegImageView->setScene(stegImg->stegScene);
-        ui->stegImageView->show();
+            ui->stegImageView->setScene(stegImg->stegScene);
+            ui->stegImageView->show();
+        }
     }
+    else
+    {
+        int ret = QMessageBox::warning(this, tr("test"), tr("An image is already loaded.\nReload?"), QMessageBox::Ok | QMessageBox::Cancel, QMessageBox::Ok);
+        switch(ret)
+        {
+        case QMessageBox::Ok:
+            if(!stegImg->filename.isEmpty())
+            {
+                isLoaded = true;
+                stegImg->stegScene = new QGraphicsScene(this);
+                stegImg->stegPixmapItem = new QGraphicsPixmapItem;
+                stegImg->stegPixmap = new QPixmap(stegImg->filename);
+                stegImg->stegPixmapItem->setPixmap(*stegImg->stegPixmap);
+                stegImg->stegScene->addItem(stegImg->stegPixmapItem);
+
+                ui->stegImageView->setScene(stegImg->stegScene);
+                ui->stegImageView->show();
+            }
+            break;
+        case QMessageBox::Cancel:
+            // Maybe put logic in here at some point
+            break;
+        default:
+            qDebug() << "Something went wrong in QSteg::open switch logic";
+            break;
+        }
+
+    }
+
 }
 
 void QSteg::save()
@@ -59,6 +91,9 @@ void QSteg::quit()
 void QSteg::encode()
 {
     qDebug() << "encode";
+    stegImg->stegBuffer = ui->stegInputText->document()->toPlainText();
+
+
 }
 
 void QSteg::decode()
@@ -130,14 +165,19 @@ void QSteg::createMenus()
 QString QSteg::hexFormat(QByteArray ba, size_t bs)
 {
     std::stringstream s;
-    s << std::setfill('0');
+    s << std::hex << std::setw(8) << "\t +0 +1 +2 +3 +4 +5 +6 +7 +8 +9 +A +B +C +D +E +F" << std::endl;
+    s << "0x" << std::setfill('0') << std::hex << std::setw(8) << 0 << ": ";
     std::cout << "size: " << bs << std::endl;
 
     for(auto sv=0U,n=0U,l=1U; n < bs; sv+=8, n++,l++)
     {
         s << std::hex << std::setw(2) << (reinterpret_cast<int>(ba.at(n) >> sv) & 0xFF) << " ";
         if(l%16==0)
+        {
             s << std::endl;
+            s << "0x" << std::setfill('0') << std::hex << std::setw(8) << l << ": ";
+        }
+
     }
 
 
@@ -146,8 +186,7 @@ QString QSteg::hexFormat(QByteArray ba, size_t bs)
 
 void QSteg::setupHex()
 {
-    HexEditor* editor = new HexEditor(ui->stegBytesText);
-    ui->stegBytesText->setReadOnly(true);
+
 }
 
 QSteg::~QSteg()

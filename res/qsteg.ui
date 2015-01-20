@@ -20,51 +20,27 @@
    <string>QSteg</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QGraphicsView" name="stegImageView">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="contextMenuPolicy">
-         <enum>Qt::DefaultContextMenu</enum>
-        </property>
-        <property name="autoFillBackground">
-         <bool>true</bool>
-        </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QAbstractScrollArea::AdjustIgnored</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGraphicsView" name="graphicsView">
-        <property name="maximumSize">
-         <size>
-          <width>101</width>
-          <height>16777215</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QTextEdit" name="stegBytesText">
-        <property name="maximumSize">
-         <size>
-          <width>184</width>
-          <height>16777215</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-     </layout>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QGraphicsView" name="stegImageView">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::DefaultContextMenu</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustIgnored</enum>
+      </property>
+     </widget>
     </item>
-    <item row="1" column="0">
+    <item alignment="Qt::AlignBottom">
      <widget class="QPlainTextEdit" name="stegInputText">
       <property name="minimumSize">
        <size>
@@ -75,11 +51,6 @@
      </widget>
     </item>
    </layout>
-   <zorder>stegBytesText</zorder>
-   <zorder>stegInputText</zorder>
-   <zorder>stegImageView</zorder>
-   <zorder>graphicsView</zorder>
-   <zorder>graphicsView</zorder>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen">
@@ -94,7 +65,7 @@
   </action>
   <action name="actionSave_As">
    <property name="text">
-    <string>Sa&amp;ve As</string>
+    <string>&amp;Save As</string>
    </property>
   </action>
   <action name="actionQuit">
